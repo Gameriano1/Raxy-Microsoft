@@ -87,14 +87,12 @@ def main():
         input("Fazer as tasks / conquista? S/N (OU T SÓ PARA AS TASKS / OU X PARA SÓ CONQUISTA / OU B SÓ PARA ABS)\n"))
     if fazer.lower() == "s":
         print(Fore.BLUE + "----------TASKS DO REWARDS-----------")
-        jeb = [
-            Thread(target=processrewards),
-            Thread(target=xboxrun)
-        ]
-        for thread in jeb:
-            thread.start()
-        for thread in jeb:
-            thread.join()
+        xboxthread = Thread(target=processrewards)
+        rewardsthread = Thread(target=xboxrun)
+        rewardsthread.start()
+        rewardsthread.join()
+        xboxthread.start()
+        xboxthread.join()
         print(Fore.GREEN + "Finalizado ✅")
 
     elif fazer.lower() == "t":
