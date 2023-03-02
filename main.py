@@ -97,11 +97,15 @@ def main():
 
     elif fazer.lower() == "t":
         print(Fore.BLUE + "----------TASKS DO REWARDS-----------")
-        processrewards()
+        rewardsthread = Thread(target=processrewards)
+        rewardsthread.start()
+        rewardsthread.join()
         print(Fore.GREEN + "Finalizado ✅")
     elif fazer.lower() == "x":
         print(Fore.MAGENTA + "-----------TASKS DO XBOX------------")
-        xboxrun()
+        xboxthread = Thread(target=xboxrun)
+        xboxthread.start()
+        xboxthread.join()
     elif fazer.lower() == "b":
         print(Fore.YELLOW + "-----------TASKS DO BING------------")
         bing()
