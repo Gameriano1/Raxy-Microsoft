@@ -9,7 +9,7 @@ def conquista(xuid, auth):
 
     payload2 = {
         "action": "progressUpdate", "serviceConfigId": "00000000-0000-0000-0000-00007806336d", "titleId": 2013672301,
-        "userId": xuid, "achievements": [{"id": 1, "percentComplete": 100}, {"id": 2, "percentComplete": 100}, {"id": 3, "percentComplete": 100}, {"id": 4, "percentComplete": 100}, {"id": 5, "percentComplete": 100}]}
+        "userId": xuid, "achievements": [{"id": 1, "percentComplete": 100}, {"id": 2, "percentComplete": 100}, {"id": 3, "percentComplete": 100}, {"id": 4, "percentComplete": 100}, {"id": 5, "percentComplete": 100}, {"id": 6, "percentComplete": 100}, {"id": 7, "percentComplete": 100}, {"id": 8, "percentComplete": 100}]}
 
     headers1 = {
         'Accept-Encoding': 'gzip, deflate',
