@@ -1,7 +1,10 @@
 import glob
+import time
+
 from bots.abs import ABS
 from threading import Thread
 from colorama import Fore
+from sys import stdout
 import threading
 from bots.taskxbox import RewardsRun
 from bots.xboxa import conquista
@@ -86,26 +89,37 @@ def main():
     fazer = str(
         input("Fazer as tasks / conquista? S/N (OU T SÓ PARA AS TASKS / OU X PARA SÓ CONQUISTA / OU B SÓ PARA ABS)\n"))
     if fazer.lower() == "s":
-        print(Fore.BLUE + "----------TASKS DO REWARDS-----------")
+        print(Fore.BLUE + "----------TASKS GLOBAIS-----------")
+        stdout.write("Fazendo as Tasks do aplicativo... 🙃")
         rewardsthread = Thread(target=processrewards)
         xboxthread = Thread(target=xboxrun)
         rewardsthread.start()
         rewardsthread.join()
+        stdout.write("\rTodas as Tasks completas. 🤩\n")
+        time.sleep(2)
+        stdout.write("Fazendo as Tasks do xbox... 🙃")
+        time.sleep(1.5)
         xboxthread.start()
         xboxthread.join()
-        print(Fore.GREEN + "Finalizado ✅")
+        stdout.write("\rConquista conquistada com sucesso! 🤩")
+        print(Fore.GREEN + "\nFinalizado ✅")
 
     elif fazer.lower() == "t":
         print(Fore.BLUE + "----------TASKS DO REWARDS-----------")
+        stdout.write("Fazendo as Tasks do aplicativo... 🙃")
         rewardsthread = Thread(target=processrewards)
         rewardsthread.start()
         rewardsthread.join()
-        print(Fore.GREEN + "Finalizado ✅")
+        stdout.write("\rTodas as Tasks completas. 🤩")
+        print(Fore.GREEN + "\nFinalizado ✅")
     elif fazer.lower() == "x":
         print(Fore.MAGENTA + "-----------TASKS DO XBOX------------")
+        stdout.write("Fazendo as Tasks do xbox... 🙃")
         xboxthread = Thread(target=xboxrun)
         xboxthread.start()
         xboxthread.join()
+        stdout.write("\rConquista conquistada com sucesso! 🤩")
+        print(Fore.GREEN + "\nFinalizado ✅")
     elif fazer.lower() == "b":
         print(Fore.YELLOW + "-----------TASKS DO BING------------")
         bing()
