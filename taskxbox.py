@@ -1,5 +1,6 @@
 import requests
 import urllib3
+from sys import stdout
 import threading
 
 def TaskXbox(authenticate,countries, cc, j, cookies):
@@ -37,17 +38,16 @@ def TaskXbox(authenticate,countries, cc, j, cookies):
 
         tentar = requests.post('https://prod.rewardsplatform.microsoft.com/dapi/me/activities',json=payload, headers=headers,cookies=cu, verify=False)
         while tentar.status_code != 200:
-            print(f"Ocorreu um Erro 💀 , pais: {cc}, task: {o}")
+            stdout.write(f"\rOcorreu um Erro 💀 , pais: {cc}")
             tentar = requests.post('https://prod.rewardsplatform.microsoft.com/dapi/me/activities', json=payload,headers=headers, cookies=cu, verify=False)
             if tentar.status_code == 200:
-                print("Erro Resolvido 🔥")
+                stdout.write("\rErro Resolvido 🔥")
 
 
 def RewardsRun(auths, je, ye):
-    print("Fazendo as Tasks do aplicativo... 🙃")
     threads = []
-    countries = ['ENUS', 'PTBR', 'ENNZ']
-    cc = ['US', 'BR', 'NZ']
+    countries = ['ENUS', 'ENCA', 'ENNZ']
+    cc = ['US', 'CA', 'NZ']
     for c, ccc in zip(countries, cc):
         t = threading.Thread(target=TaskXbox, args=(auths, c, ccc, je, ye))
         threads.append(t)
@@ -55,8 +55,6 @@ def RewardsRun(auths, je, ye):
 
     for t in threads:
         t.join()
-    print("Tasks Completas! 😁")
-    print("-------------------------------------")
 
 if __name__ == "__main__":
     RewardsRun()
