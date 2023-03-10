@@ -1,6 +1,7 @@
 import requests as r
 import threading
 import time
+from sys import stdout
 
 
 def conquistar(xuid, auth, ide, scid):
@@ -40,7 +41,8 @@ def conquistar(xuid, auth, ide, scid):
     if response.status_code != 200:
         p = 1
         while response.status_code != 200:
-            print("Um Erro foi Encontrado, Esperando " + str(p) + " segundos e tentando executar novamente")
+            stdout.write("\r" + "Um Erro foi Encontrado, Esperando " + str(p) + " segundos e tentando executar novamente")
+            stdout.flush()
             time.sleep(p)
             response = r.post(f"https://presence-heartbeat.xboxlive.com/users/xuid({xuid})/devices/current",
                               json=payload,
@@ -58,7 +60,6 @@ def conquistar(xuid, auth, ide, scid):
 
 
 def conquista(xuid, auth):
-    print("Fazendo as Tasks do xbox... 🙃")
     ids = [2013672301, 1967883584, 1884090207]
     scid = ["00000000-0000-0000-0000-00007806336d", "00000000-0000-0000-0000-0000754b8540", "00000000-0000-0000-0000-0000704cef5f"]
     threads = []
@@ -69,8 +70,6 @@ def conquista(xuid, auth):
 
     for t in threads:
         t.join()
-    print("Conquista conquistada com sucesso! 🤩")
-    print("-------------------------------------")
 
 
 if __name__ == '__main__':
