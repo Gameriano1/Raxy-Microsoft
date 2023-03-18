@@ -7,7 +7,10 @@ def TaskXbox(authenticate,countries, cc, j, cookies):
 
     urllib3.disable_warnings()
 
-    offers =["_Welcome_Tour_XboxApp_Offer","_xboxapp_punchcard_RewardsOnboarding_pcparent","_xboxapp_punchcard_RewardsOnboarding_pcchild1_dset","_xboxapp_punchcard_RewardsOnboarding_pcchild3_shope","_xboxapp_punchcard_RewardsOnboarding_pcchild5_gpquest","_xboxapp_punchcard_RewardsOnboarding_pcchild6_redeem","_xboxapp_punchcard_RewardsOnboarding_pcchild7_app"]
+    offers = ["_Welcome_Tour_XboxApp_Offer","_xboxapp_punchcard_RewardsOnboarding_pcparent","_xboxapp_punchcard_RewardsOnboarding_pcchild1_dset","_xboxapp_punchcard_RewardsOnboarding_pcchild3_shope","_xboxapp_punchcard_RewardsOnboarding_pcchild5_gpquest","_xboxapp_punchcard_RewardsOnboarding_pcchild6_redeem","_xboxapp_punchcard_RewardsOnboarding_pcchild7_app"]
+    if cc == "US":
+        for i in range(2, 6):
+            offers.append(f"_xboxapp_pcchild{i}_urlreward_achievementpc_WHM2023")
 
     if authenticate == None:
         raise Exception('Coloque um authenticate valido')
@@ -46,8 +49,8 @@ def TaskXbox(authenticate,countries, cc, j, cookies):
 
 def RewardsRun(auths, je, ye):
     threads = []
-    countries = ['ENUS', 'ENCA', 'ENNZ']
-    cc = ['US', 'CA', 'NZ']
+    countries = ['ENUS', 'PTBR', 'ENNZ']
+    cc = ['US', 'BR', 'NZ']
     for c, ccc in zip(countries, cc):
         t = threading.Thread(target=TaskXbox, args=(auths, c, ccc, je, ye))
         threads.append(t)
