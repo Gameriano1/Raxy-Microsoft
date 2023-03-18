@@ -86,6 +86,7 @@ def bing():
                     ABS(h)
 
 def main():
+    print("Nova sequencia: Eua, Brasil e nova zelandia... por favor farmar nessa sequencia")
     fazer = str(
         input("Fazer as tasks / conquista? S/N (OU T SÓ PARA AS TASKS / OU X PARA SÓ CONQUISTA / OU B SÓ PARA ABS)\n"))
     if fazer.lower() == "s":
