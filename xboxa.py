@@ -39,7 +39,7 @@ def conquistar(xuid, auth, ide, scid):
     response = r.post(f"https://presence-heartbeat.xboxlive.com/users/xuid({xuid})/devices/current", json=payload,
                       headers=headers1, verify=False)
     if response.status_code != 200:
-        p = 1
+        p = 16
         while response.status_code != 200:
             stdout.write("\r" + "Um Erro foi Encontrado, Esperando " + str(p) + " segundos e tentando executar novamente")
             stdout.flush()
@@ -47,7 +47,6 @@ def conquistar(xuid, auth, ide, scid):
             response = r.post(f"https://presence-heartbeat.xboxlive.com/users/xuid({xuid})/devices/current",
                               json=payload,
                               headers=headers1, verify=False)
-            p = p+1
 
 
 
