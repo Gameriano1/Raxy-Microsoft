@@ -4,17 +4,14 @@ import time
 from sys import stdout
 
 
-def conquistar(xuid, auth, ide, scid):
+def conquistar(xuid, auth, ide, scid, v):
     payload = {
         "titles": [{"expiration": 600, "id": ide, "state": "active", "sandbox": "RETAIL"}]
     }
 
     payload2 = {
         "action": "progressUpdate", "serviceConfigId": scid, "titleId": ide,
-        "userId": xuid, "achievements": [{"id": 1, "percentComplete": 100}, {"id": 2, "percentComplete": 100},
-                                         {"id": 3, "percentComplete": 100}, {"id": 4, "percentComplete": 100},
-                                         {"id": 5, "percentComplete": 100}, {"id": 6, "percentComplete": 100},
-                                         {"id": 7, "percentComplete": 100}, {"id": 8, "percentComplete": 100}]}
+        "userId": xuid, "achievements": [{"id": v, "percentComplete": 100}]}
 
     headers1 = {
         'Accept-Encoding': 'gzip, deflate',
@@ -56,16 +53,19 @@ def conquistar(xuid, auth, ide, scid):
         pass
     else:
         print(f"Algo deu errado, {responsi.status_code} ❌")
-
+        while not responsi.status_code == 200 or responsi.status_code == 304:
+            responsi = r.post(
+                f"https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements/" + scid + "/update?",
+                json=payload2, headers=headers2, verify=False)
 
 def conquista(xuid, auth):
-    ids = [2013672301, 1967883584, 1884090207]
-    scid = ["00000000-0000-0000-0000-00007806336d", "00000000-0000-0000-0000-0000754b8540", "00000000-0000-0000-0000-0000704cef5f"]
+    ids = 2013672301
+    scid = "00000000-0000-0000-0000-00007806336d"
     threads = []
-    for i, s in zip(ids, scid):
-        t = threading.Thread(target=conquistar, args=(xuid, auth, i, s))
-        threads.append(t)
-        t.start()
+    for v in range(1,6):
+            t = threading.Thread(target=conquistar, args=(xuid, auth, ids, scid, v))
+            threads.append(t)
+            t.start()
 
     for t in threads:
         t.join()
