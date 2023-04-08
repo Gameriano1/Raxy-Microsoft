@@ -9,7 +9,7 @@ def TaskXbox(authenticate,countries, cc, j, cookies):
 
     offers = ["_Welcome_Tour_XboxApp_Offer","_xboxapp_punchcard_RewardsOnboarding_pcparent","_xboxapp_punchcard_RewardsOnboarding_pcchild1_dset","_xboxapp_punchcard_RewardsOnboarding_pcchild3_shope","_xboxapp_punchcard_RewardsOnboarding_pcchild5_gpquest","_xboxapp_punchcard_RewardsOnboarding_pcchild6_redeem","_xboxapp_punchcard_RewardsOnboarding_pcchild7_app"]
     if cc == "US" or cc == "BR":
-        for i in range(1, 5):
+        for i in range(1, 6):
             offers.append(f"_xboxapp_pcchild{i}_urlreward_adhocpc_FH5RallyAdventure")
 
     if authenticate == None:
