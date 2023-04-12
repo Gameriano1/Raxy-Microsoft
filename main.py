@@ -1,6 +1,4 @@
 import glob
-import time
-
 from bots.abs import ABS
 from threading import Thread
 from colorama import Fore
@@ -9,7 +7,7 @@ import threading
 from bots.taskxbox import RewardsRun
 from bots.xboxa import conquista
 
-def processrewards():
+def processrewards(b = False):
     mscv = []
     authe = []
     cu = []
@@ -35,12 +33,13 @@ def processrewards():
                     y = y.replace("Cookie: ", "")
                     cu.append(y)
     for v, i, u in zip(authe, mscv, cu):
-        t = threading.Thread(target=RewardsRun, args=(v, i, u))
-        threads.append(t)
-        t.start()
-    for t in threads:
-
-        t.join()
+        for _ in range(3):
+            t = threading.Thread(target=RewardsRun, args=(v, i, u))
+            threads.append(t)
+            t.start()
+        if b:
+            for t in threads:
+                t.join()
 
 def xboxrun():
     xuids = []
@@ -97,9 +96,7 @@ def main():
         rewardsthread.start()
         rewardsthread.join()
         stdout.write("\rTodas as Tasks completas. 🤩\n")
-        time.sleep(2)
         stdout.write("Fazendo as Tasks do xbox... 🙃")
-        time.sleep(1.5)
         xboxthread.start()
         xboxthread.join()
         stdout.write("\rConquista conquistada com sucesso! 🤩")
