@@ -74,14 +74,13 @@ def conquista(xuid, auth):
     threads2.append(t)
     t.start()
 
-    for t in threads2:
-        t.join()
-
-    for v in range(1,25):
+    for v in range(1,6):
         t = threading.Thread(target=conquistar, args=(xuid, auth, ids, scid, v))
         threads1.append(t)
         t.start()
 
+    for t in threads2:
+        t.join()
     for t in threads1:
         t.join()
 
