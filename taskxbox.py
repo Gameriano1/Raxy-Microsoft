@@ -48,8 +48,8 @@ def RewardsRun(auths, je, ye):
               "_xboxapp_punchcard_RewardsOnboarding_pcchild5_gpquest",
               "_xboxapp_punchcard_RewardsOnboarding_pcchild6_redeem",
               "_xboxapp_punchcard_RewardsOnboarding_pcchild7_app"]
-    countries = ['DEDE', 'PTBR', 'ENNZ']
-    cc = ['DE', 'BR', 'NZ']
+    countries = ['ENUS', 'PTBR', 'ENNZ']
+    cc = ['US', 'BR', 'NZ']
     for c, ccc in zip(countries, cc):
         for o in offers:
             t = threading.Thread(target=TaskXbox, args=(o, auths, c, ccc, je, ye))
