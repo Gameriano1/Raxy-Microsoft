@@ -47,7 +47,11 @@ def RewardsRun(auths, je, ye):
               "_xboxapp_punchcard_RewardsOnboarding_pcchild3_shope",
               "_xboxapp_punchcard_RewardsOnboarding_pcchild5_gpquest",
               "_xboxapp_punchcard_RewardsOnboarding_pcchild6_redeem",
-              "_xboxapp_punchcard_RewardsOnboarding_pcchild7_app"]
+              "_xboxapp_punchcard_RewardsOnboarding_pcchild7_app",]
+    for i in range(1,5):
+        offers.append(f"_xboxapp_pcchild{i}_urlreward_adhocpc_Overwatch2S4")
+        offers.append(f"_xboxapp_pcchild{i}_urlreward_adhocpc_CODMW2S3")
+        offers.append(f"_xboxapp_pcchild{i}_urlreward_adhocpc_EarthDay2023")
     countries = ['ENUS', 'PTBR', 'ENNZ']
     cc = ['US', 'BR', 'NZ']
     for c, ccc in zip(countries, cc):
