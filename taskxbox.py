@@ -52,8 +52,8 @@ def RewardsRun(auths, je, ye):
         offers.append(f"_xboxapp_pcchild{i}_urlreward_adhocpc_Overwatch2S4")
         offers.append(f"_xboxapp_pcchild{i}_urlreward_adhocpc_CODMW2S3")
         offers.append(f"_xboxapp_pcchild{i}_urlreward_adhocpc_EarthDay2023")
-    countries = ['ENUS', 'PTBR', 'ENNZ']
-    cc = ['US', 'BR', 'NZ']
+    countries = ['ENUS', 'ENNZ']
+    cc = ['US', 'NZ']
     for c, ccc in zip(countries, cc):
         for o in offers:
             t = threading.Thread(target=TaskXbox, args=(o, auths, c, ccc, je, ye))
