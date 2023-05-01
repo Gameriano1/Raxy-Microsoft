@@ -66,8 +66,8 @@ def conquistar(xuid ,auth ,ide ,scid ,v):
         pass
 
 def conquista(xuid, auth):
-    ids = 2043073184
-    scid = "00000000-0000-0000-0000-000079c6d2a0"
+    ids = 629270283
+    scid = "0b0a0100-e8bd-4d11-a41c-80aa2581e70b"
     threads1 = []
     threads2 = []
     t = threading.Thread(target=ativar, args=(xuid, auth, ids))
