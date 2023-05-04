@@ -65,6 +65,3 @@ def RewardsRun(auths, je, ye):
         t.start()
     for t in threads:
         t.join()
-
-if __name__ == "__main__":
-    RewardsRun()
