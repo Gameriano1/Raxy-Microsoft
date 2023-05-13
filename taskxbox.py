@@ -48,8 +48,8 @@ class Farm:
                   "_xboxapp_punchcard_RewardsOnboarding_pcchild5_gpquest",
                   "_xboxapp_punchcard_RewardsOnboarding_pcchild6_redeem",
                   "_xboxapp_punchcard_RewardsOnboarding_pcchild7_app",]
-        countries = ['ITIT', 'ENNZ']
-        cc = ['IT', 'NZ']
+        countries = ['ITIT', 'ENNZ', 'PTBR']
+        cc = ['IT', 'NZ', 'BR']
         for c, ccc in zip(countries, cc):
             for o in offers:
                 t = threading.Thread(target=Farm.TaskXbox, args=(o, auths, c, ccc, je, ye))
