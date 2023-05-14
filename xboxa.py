@@ -31,11 +31,11 @@ class Xbox:
 
 
 
-    def conquistar(xuid ,auth ,ide ,scid ,v):
+    def conquistar(xuid ,auth ,ide ,scid):
 
         payload2 = {
             "action": "progressUpdate", "serviceConfigId": scid, "titleId": ide,
-            "userId": xuid, "achievements": [{"id": v, "percentComplete": 100}]}
+            "userId": xuid, "achievements": [{"id": 1, "percentComplete": 100}, {"id": 2, "percentComplete": 100}, {"id": 3, "percentComplete": 100}, {"id": 4, "percentComplete": 100}]}
 
         headers2 = {
             'Accept-Encoding': 'gzip, deflate',
@@ -75,10 +75,9 @@ class Xbox:
         threads2.append(t)
         t.start()
 
-        for v in range(1,9):
-            t = threading.Thread(target=Xbox.conquistar, args=(xuid, auth, ids, scid, v))
-            threads1.append(t)
-            t.start()
+        t = threading.Thread(target=Xbox.conquistar, args=(xuid, auth, ids, scid, v))
+        threads1.append(t)
+        t.start()
 
         for t in threads2:
             t.join()
