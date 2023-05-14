@@ -75,7 +75,7 @@ class Xbox:
         threads2.append(t)
         t.start()
 
-        t = threading.Thread(target=Xbox.conquistar, args=(xuid, auth, ids, scid, v))
+        t = threading.Thread(target=Xbox.conquistar, args=(xuid, auth, ids, scid))
         threads1.append(t)
         t.start()
 
