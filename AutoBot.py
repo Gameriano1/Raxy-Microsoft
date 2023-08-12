@@ -549,7 +549,7 @@ class Login:
             drivermail = desbugador.desbugar()
             return drivermail
 
-    def resgatar(self, drivermail, addnum=True):
+    def resgatar(self, drivermail, inb, tmp,addnum=True):
         try:
             print("começando a resgatar")
             drivermail.maximize_window()
@@ -698,18 +698,17 @@ class Login:
                 pass
 
 
-if __name__ == '__main__':
-    urllib3.disable_warnings()
-    config = configs()
+urllib3.disable_warnings()
+config = configs()
 
+quantidade = config['configurations']['quantidade']
+dtb = config['configurations']['database']
+countries = config['countries']
 
+isproxy = config['proxy']['proxy_enabled']
+smsauth = config['configurations']['smsauth']
 
-    quantidade = config['configurations']['quantidade']
-    dtb = config['configurations']['database']
-    countries = config['countries']
-
-    isproxy = config['proxy']['proxy_enabled']
-    smsauth = config['configurations']['smsauth']
+def Run():
 
     if int(quantidade) < 1: raise Exception("Digite uma quantidade de contas a ser feitas valida!")
 
@@ -719,7 +718,7 @@ if __name__ == '__main__':
         autofarm = AutoFarm()
         login = Login()
 
-        autofarm.gerarcmd()
+        # autofarm.gerarcmd()
         print("------------------ Começando ------------------")
 
         login.get_location("BR")
@@ -799,8 +798,7 @@ if __name__ == '__main__':
 
         for country in countries:
             pontos += pontos_por_pais.get(country, pontos_padrao)
-            if not isproxy:
-                login.get_location(country[2:])
+            login.get_location(country[2:])
 
             print(f"Pontos necessarios: {pontos}, Pais:{country[2:]}")
 
@@ -818,7 +816,7 @@ if __name__ == '__main__':
         login.get_location("US")
         input("Logue a conta no chrome e digite enter...\n>>> ")
 
-        while not login.resgatar(drivermail):
+        while not login.resgatar(drivermail, inb=inb, tmp=tmp):
             continue
 
         print("Conta feita!")
