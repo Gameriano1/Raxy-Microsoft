@@ -2,7 +2,8 @@
     "configurations": {
         "smsauth": "dA9c89cd1949dd30b3e532ce03469f95",
         "database": "https://contas2-b9481-default-rtdb.firebaseio.com/",
-        "quantidade": 3
+        "quantidade": 3,
+        "versao": 1.0
     },
     "proxy": {
         "proxy_enabled": false,
