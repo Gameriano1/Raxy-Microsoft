@@ -551,13 +551,20 @@ class Login:
             drivermail = desbugador.desbugar()
             return drivermail
 
-    def resgatar(self, drivermail, inb, tmp,addnum=True):
+    def resgatar(self, drivermail, inb, tmp, senha ,addnum=True):
         try:
             print("começando a resgatar")
             drivermail.maximize_window()
             while not drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
                 try:
                     drivermail.get('https://account.live.com/names/Manage')
+                    while not drivermail.current_url.lower().__contains__("proof"):
+                        try:
+                            drivermail.find_element('xpath', '//*[@id="i0118"]').send_keys(senha)
+                            drivermail.find_element('xpath', '//*[@id="idSIButton9"]').click()
+                        except:
+                            pass
+
                     self.bingantibug('//*[@id="EmailAddress"]', drivermail)
                     drivermail.find_element('xpath', '//*[@id="EmailAddress"]').send_keys(inb.address)
                     self.bingantibug('//*[@id="iNext"]', drivermail)
@@ -818,7 +825,7 @@ def Run():
         login.get_location("US")
         input("Logue a conta no chrome e digite enter...\n>>> ")
 
-        while not login.resgatar(drivermail, inb=inb, tmp=tmp):
+        while not login.resgatar(drivermail, inb=inb, tmp=tmp, senha=autofarm.senha):
             continue
 
         print("Conta feita!")
