@@ -555,71 +555,81 @@ class Login:
         try:
             print("começando a resgatar")
             drivermail.maximize_window()
-            while not drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
-                try:
-                    drivermail.get('https://account.live.com/names/Manage')
-                    while not drivermail.current_url.lower().__contains__("proof"):
-                        try:
-                            drivermail.find_element('xpath', '//*[@id="i0118"]').send_keys(senha)
-                            drivermail.find_element('xpath', '//*[@id="idSIButton9"]').click()
-                        except:
-                            pass
-
-                    self.bingantibug('//*[@id="EmailAddress"]', drivermail)
-                    drivermail.find_element('xpath', '//*[@id="EmailAddress"]').send_keys(inb.address)
-                    self.bingantibug('//*[@id="iNext"]', drivermail)
-                    drivermail.find_element('xpath', '//*[@id="iNext"]').click()
-                    time.sleep(2)
-
+            try:
+                drivermail.get('https://account.live.com/names/Manage')
+                while not drivermail.current_url.lower().__contains__("proof"):
                     try:
-                        drivermail.find_element('xpath', '//*[@id="EmailError"]').is_enabled()
-                        print("conta ja usada")
-                        return
+                        drivermail.find_element('xpath', '//*[@id="i0118"]').send_keys(senha)
+                        drivermail.find_element('xpath', '//*[@id="idSIButton9"]').click()
                     except:
                         pass
+                while True:
+                    need = False
+                    try:
+                        try:
+                            drivermail.find_element('xpath', '//*[@id="idDiv_SAOTCS_Proofs"]/div/div').is_enabled()
+                            need = True
+                            break
+                        except:
+                            pass
+                        if need:
+                            break
 
-                    while True:
-                        emails = TempMail.getEmails(tmp, inbox=inb)
-                        if not len(emails):
-                            continue
-                        mensagem = emails[0].body
+                        self.bingantibug('//*[@id="EmailAddress"]', drivermail)
+                        drivermail.find_element('xpath', '//*[@id="EmailAddress"]').send_keys(inb.address)
+                        self.bingantibug('//*[@id="iNext"]', drivermail)
+                        drivermail.find_element('xpath', '//*[@id="iNext"]').click()
+                        time.sleep(2)
+
+                        while True:
+                            emails = TempMail.getEmails(tmp, inbox=inb)
+                            if not len(emails):
+                                continue
+                            mensagem = emails[0].body
+                            break
+
+                        linhas = str(mensagem).splitlines()
+                        otp = [i for i in linhas if i.__contains__('Código de segurança:')]
+
+                        ott = otp[0][21:]
+
+                        self.bingantibug('//*[@id="iOttText"]', drivermail)
+                        drivermail.find_element('xpath', '//*[@id="iOttText"]').send_keys(ott)
+                        drivermail.find_element('xpath', '//*[@id="iNext"]').click()
                         break
+                    except:
+                        drivermail.get('https://account.live.com/names/Manage')
 
-                    linhas = str(mensagem).splitlines()
-                    otp = [i for i in linhas if i.__contains__('Código de segurança:')]
+                while not drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
+                    try:
+                        if drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
+                            break
+                        self.bingantibug('//*[@id="idDiv_SAOTCS_Proofs"]/div/div', drivermail)
+                        drivermail.find_element('xpath', '//*[@id="idDiv_SAOTCS_Proofs"]/div/div').click()
+                        self.bingantibug('//*[@id="idTxtBx_SAOTCS_ProofConfirmation"]', drivermail)
+                        drivermail.find_element('xpath', '//*[@id="idTxtBx_SAOTCS_ProofConfirmation"]').send_keys(inb.address)
+                        drivermail.find_element('xpath', '//*[@id="idSubmit_SAOTCS_SendCode"]').click()
 
-                    ott = otp[0][21:]
+                        while True:
+                            emails = TempMail.getEmails(tmp, inbox=inb)
+                            if not len(emails):
+                                continue
+                            mensagem = emails[0].body
+                            break
 
-                    self.bingantibug('//*[@id="iOttText"]', drivermail)
-                    drivermail.find_element('xpath', '//*[@id="iOttText"]').send_keys(ott)
-                    drivermail.find_element('xpath', '//*[@id="iNext"]').click()
+                        linhas = str(mensagem).splitlines()
+                        otp = [i for i in linhas if i.__contains__('Código de segurança:')]
 
-                    self.bingantibug('//*[@id="idDiv_SAOTCS_Proofs"]/div/div', drivermail)
-                    drivermail.find_element('xpath', '//*[@id="idDiv_SAOTCS_Proofs"]/div/div').click()
-                    self.bingantibug('//*[@id="idTxtBx_SAOTCS_ProofConfirmation"]', drivermail)
-                    drivermail.find_element('xpath', '//*[@id="idTxtBx_SAOTCS_ProofConfirmation"]').send_keys(inb.address)
-                    drivermail.find_element('xpath', '//*[@id="idSubmit_SAOTCS_SendCode"]').click()
+                        ott = otp[0][21:]
 
-                    while True:
-                        emails = TempMail.getEmails(tmp, inbox=inb)
-                        if not len(emails):
-                            continue
-                        mensagem = emails[0].body
-                        break
-
-                    linhas = str(mensagem).splitlines()
-                    otp = [i for i in linhas if i.__contains__('Código de segurança:')]
-
-                    ott = otp[0][21:]
-
-                    self.bingantibug('//*[@id="idTxtBx_SAOTCC_OTC"]', drivermail)
-                    drivermail.find_element('xpath', '//*[@id="idTxtBx_SAOTCC_OTC"]').send_keys(ott)
-                    drivermail.find_element('xpath', '//*[@id="idChkBx_SAOTCC_TD"]').click()
-                    drivermail.find_element('xpath', '//*[@id="idSubmit_SAOTCC_Continue"]').click()
-                    while not drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
-                        continue
-                except:
-                    pass
+                        self.bingantibug('//*[@id="idTxtBx_SAOTCC_OTC"]', drivermail)
+                        drivermail.find_element('xpath', '//*[@id="idTxtBx_SAOTCC_OTC"]').send_keys(ott)
+                        drivermail.find_element('xpath', '//*[@id="idChkBx_SAOTCC_TD"]').click()
+                        drivermail.find_element('xpath', '//*[@id="idSubmit_SAOTCC_Continue"]').click()
+                    except:
+                        drivermail.get('https://account.live.com/names/Manage')
+            except:
+                pass
 
             if addnum:
 
@@ -641,8 +651,7 @@ class Login:
                 except:
                     try:
                         quantidade = sa.getRentStatus(id=numeroid)["quantity"]
-                    except Exception as e:
-                        raise Exception(e)
+                    except:
                         return False
 
                 smsplus = int(quantidade) + 1
@@ -685,8 +694,7 @@ class Login:
                     continue
 
                 return True
-        except Exception as e:
-            raise Exception(e)
+        except:
             return False
 
     def get_location(self, pais):
