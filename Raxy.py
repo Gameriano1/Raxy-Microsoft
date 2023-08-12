@@ -641,7 +641,8 @@ class Login:
                 except:
                     try:
                         quantidade = sa.getRentStatus(id=numeroid)["quantity"]
-                    except:
+                    except Exception as e:
+                        raise Exception(e)
                         return False
 
                 smsplus = int(quantidade) + 1
@@ -684,7 +685,8 @@ class Login:
                     continue
 
                 return True
-        except:
+        except Exception as e:
+            raise Exception(e)
             return False
 
     def get_location(self, pais):
@@ -722,7 +724,6 @@ def Run():
     if int(quantidade) < 1: raise Exception("Digite uma quantidade de contas a ser feitas valida!")
 
     for _ in range(int(quantidade)):
-
 
         autofarm = AutoFarm()
         login = Login()
@@ -779,7 +780,7 @@ def Run():
                 print("Tasks do app Feitas\n\n")
 
             rewardsthread = executor.submit(autofarm.processrewards)
-            result = [rewardsthread.result()]
+            _ = [rewardsthread.result()]
 
         with open(f"C:/Farm/rewards/{os.getlogin()}.txt", "r") as file:
             lines = file.readlines()
