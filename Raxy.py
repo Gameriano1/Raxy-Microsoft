@@ -566,6 +566,8 @@ class Login:
                 while True:
                     need = False
                     try:
+                        if drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
+                            break
                         try:
                             drivermail.find_element('xpath', '//*[@id="idDiv_SAOTCS_Proofs"]/div/div').is_enabled()
                             need = True
