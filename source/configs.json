@@ -1,6 +1,6 @@
 {
     "configurations": {
-        "smsauth": "dA9c89cd1949dd30b3e532ce03469f95",
+        "smsauth": "NA",
         "database": "https://contas2-b9481-default-rtdb.firebaseio.com/",
         "quantidade": 3
     },
@@ -12,7 +12,7 @@
         "proxy_password": "example"
     },
     "numbers": {
-        "rodrigao": 4915510670842,
+        "usuario1": 123456789,
         "usuario2": 123456789,
         "usuario3": 123456789,
         "usuario4": 123456789,
