@@ -685,8 +685,11 @@ class Login:
 
                 while not drivermail.current_url.__contains__("Manage"):
                     continue
+                drivermail.minimize_window()
 
                 input("Resgate a conta no chrome e digite enter...\n>>> ")
+
+                drivermail.maximize_window()
 
                 drivermail.find_element('xpath', '//*[@id="idRemoveAssocPhone"]').click()
                 self.bingantibug('//*[@id="iBtn_action"]', drivermail)
