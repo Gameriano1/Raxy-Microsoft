@@ -658,6 +658,8 @@ class Login:
 
                 smsplus = int(quantidade) + 1
 
+                drivermail.get('https://account.live.com/names/Manage')
+
                 self.bingantibug('//*[@id="idAddPhoneAliasLink"]', drivermail)
                 drivermail.find_element('xpath', '//*[@id="idAddPhoneAliasLink"]').click()
                 self.bingantibug('//*[@id="DisplayPhoneCountryISO"]', drivermail)
