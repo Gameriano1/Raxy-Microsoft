@@ -629,7 +629,7 @@ class Login:
                         drivermail.find_element('xpath', '//*[@id="idChkBx_SAOTCC_TD"]').click()
                         drivermail.find_element('xpath', '//*[@id="idSubmit_SAOTCC_Continue"]').click()
                     except:
-                        drivermail.get('https://account.live.com/names/Manage')
+                        drivermail.get('https://account.live.com/names/manage')
             except:
                 pass
 
@@ -658,7 +658,7 @@ class Login:
 
                 smsplus = int(quantidade) + 1
 
-                drivermail.get('https://account.live.com/names/Manage')
+                drivermail.get('https://account.live.com/names/manage')
 
                 self.bingantibug('//*[@id="idAddPhoneAliasLink"]', drivermail)
                 drivermail.find_element('xpath', '//*[@id="idAddPhoneAliasLink"]').click()
