@@ -818,7 +818,8 @@ def Run():
 
         for country in countries:
             pontos += pontos_por_pais.get(country, pontos_padrao)
-            login.get_location(country[2:])
+            if not isproxy:
+                login.get_location(country[2:])
 
             print(f"Pontos necessarios: {pontos}, Pais:{country[2:]}")
 
