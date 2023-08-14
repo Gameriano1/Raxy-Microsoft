@@ -20,7 +20,7 @@ import requests
 import urllib3
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -390,8 +390,6 @@ class Login:
         self.cookiesbing = None
 
         self.chrome_options = ChromeOptions()
-
-        self.chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         self.chrome_options.add_argument('--log-level=3')
 
         self.chrome_options.add_argument(
@@ -807,7 +805,6 @@ def Run():
     if int(quantidade) < 1: raise Exception("Digite uma quantidade de contas a ser feitas valida!")
 
     for _ in range(int(quantidade)):
-
         autofarm = AutoFarm()
         login = Login()
 
@@ -919,3 +916,4 @@ def Run():
                 os.remove(arquivo)
 
         print("!!!!!!!!!!!!!!!!!!FINALIZADO!!!!!!!!!!!!!!!!!!!\n\n")
+Run()
