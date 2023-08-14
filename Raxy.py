@@ -25,7 +25,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 from smsactivate.api import SMSActivateAPI
 from contas import Logador
@@ -400,10 +400,9 @@ class Login:
         print("Começando a Logar no Site")
 
         try:
-            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),
-                                      options=self.chrome_options)
+            driver = webdriver.Firefox(service=ChromeService(GeckoDriverManager().install()), options=self.chrome_options)
         except:
-            driver = webdriver.Chrome(options=self.chrome_options)
+            driver = webdriver.Firefox(options=self.chrome_options)
         try:
             driver.get(
                 'https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&id=264960&wreply=https%3a%2f%2fwww.bing.com%2fsecure%2fPassport.aspx%3frequrl%3dhttps%253a%252f%252fwww.bing.com%252f%253fwlexpsignin%253d1%26sig%3d387A7E8F86D465B53DD36C1487C06411&wp=MBI_SSL&lc=1046&CSRFToken=68214017-1e42-4484-bc17-b8a7323b9b91&aadredir=1')
@@ -555,6 +554,56 @@ class Login:
         try:
             print("começando a resgatar")
             drivermail.maximize_window()
+            while True:
+                try:
+                    while True:
+                        try:
+                            greenid = drivermail.find_element('name', 'greenId').get_attribute("value")
+                            break
+                        except:
+                            pass
+
+                    vertoken = drivermail.find_element('name', '__RequestVerificationToken').get_attribute("value")
+
+                    reqid = drivermail.find_element('name', 'challenge.RequestId').get_attribute("value")
+                    cookies = drivermail.get_cookies()
+                    cookies_requests = {cookie['name']: cookie['value'] for cookie in cookies}
+
+                    url = "https://rewards.bing.com/redeem/checkout/verify?form=dash_2"
+                    payload = {
+                        "productId": "000412000025",
+                        "provider": "csv",
+                        "challenge.RequestId": str(reqid),
+                        "challenge.TrackingId": "",
+                        "challenge.ChallengeMessageTemplate": "D",
+                        "challenge.State": "CreateChallenge",
+                        "expectedGreenId": str(greenid),
+                        "challenge.SendingType": "SMS",
+                        "challenge.Phone.CountryCode": "39",
+                        "challenge.Phone.Number": "3491234567",
+                        "__RequestVerificationToken": str(vertoken)
+                    }
+
+                    headers = {
+                        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+                        "Accept-Encoding": "gzip, deflate, br",
+                        "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+                    }
+
+                    proxy = config['proxy']
+
+                    proxydetails = [proxy['proxy_address'], proxy['proxy_port'], proxy['proxy_username'],
+                                    proxy['proxy_password']]
+                    proxy = {
+                        "http": f"http://{proxydetails[2]}-US-rotate:{proxydetails[3]}@{proxydetails[0]}:{proxydetails[1]}/",
+                        "https": f"http://{proxydetails[2]}-US-rotate:{proxydetails[3]}@{proxydetails[0]}:{proxydetails[1]}/"
+                    }
+
+                    break
+                except:
+                    pass
+
             try:
                 drivermail.get('https://account.live.com/names/Manage')
                 while not drivermail.current_url.lower().__contains__("proof"):
@@ -687,11 +736,16 @@ class Login:
 
                 while not drivermail.current_url.__contains__("Manage"):
                     continue
-                drivermail.minimize_window()
 
-                input("Resgate a conta no chrome e digite enter...\n>>> ")
-
-                drivermail.maximize_window()
+                quantidade, _ = self.checkpesquisa("PTBR")
+                while quantidade >= 2900:
+                    response = requests.post(url, data=payload, headers=headers, cookies=cookies_requests,
+                                             proxies=proxy)
+                    if response.status_code == 200:
+                        print("Resgatado com sucesso!")
+                    else:
+                        print("Ocorreu um erro ao resgatar:", response.status_code)
+                    quantidade, _ = self.checkpesquisa("PTBR")
 
                 drivermail.find_element('xpath', '//*[@id="idRemoveAssocPhone"]').click()
                 self.bingantibug('//*[@id="iBtn_action"]', drivermail)
@@ -857,3 +911,4 @@ def Run():
                 os.remove(arquivo)
 
         print("!!!!!!!!!!!!!!!!!!FINALIZADO!!!!!!!!!!!!!!!!!!!\n\n")
+Run()
