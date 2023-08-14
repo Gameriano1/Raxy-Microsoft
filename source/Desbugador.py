@@ -112,7 +112,10 @@ class login:
 
             driver.get("https://bing.com")
             self.bingantibug('//*[@id="sbi_b"]', driver)
+            time.sleep(2)
             cookiesbing = driver.get_cookies()
+            while not cookiesbing:
+                cookiesbing = driver.get_cookies()
 
             #######################
             # Criar Conta no Xbox #
