@@ -318,42 +318,54 @@ class AutoFarm:
 
         if not os.path.exists(f"C:/Farm/rewards/{os.getlogin()}.txt"):
             raise Exception("Arquivos Faltando")
-        try:
-            with open(f"C:/Farm/rewards/{os.getlogin()}.txt", "r") as file:
-                lines = file.readlines()
-                authorization = self.authrewards = [linha for linha in lines if linha.__contains__("Authorization: ")][
-                    0].strip().replace("Authorization: ", "")
+        while True:
+            try:
+                with open(f"C:/Farm/rewards/{os.getlogin()}.txt", "r") as file:
+                    lines = file.readlines()
+                    authorization = self.authrewards = [linha for linha in lines if linha.__contains__("Authorization: ")][
+                        0].strip().replace("Authorization: ", "")
 
-                ms = [linha for linha in lines if linha.__contains__("MS-CV: ")][0].strip().replace("MS-CV: ", "")
+                    ms = [linha for linha in lines if linha.__contains__("MS-CV: ")][0].strip().replace("MS-CV: ", "")
 
-                cookie = [linha for linha in lines if linha.__contains__("Cookie: ")][0].strip().replace("Cookie: ", "")
+                    cookie = [linha for linha in lines if linha.__contains__("Cookie: ")][0].strip().replace("Cookie: ", "")
+                    if not authorization:
+                        continue
 
-            for country in countries:
-                t = threading.Thread(target=farm.RewardsRun, args=(authorization, ms, cookie, country))
-                threads.append(t)
-                t.start()
-            for t in threads:
-                t.join()
-        except:
-            pass
+                for country in countries:
+                    t = threading.Thread(target=farm.RewardsRun, args=(authorization, ms, cookie, country))
+                    threads.append(t)
+                    t.start()
+                for t in threads:
+                    t.join()
+            except:
+                pass
 
     def farmxbox(self):
 
         if not os.path.exists(f"C:/Farm/xbox/{os.getlogin()}xbox.txt"):
             raise Exception("Arquivos Faltando")
 
-        with open(f"C:/Farm/rewards/{os.getlogin()}.txt", "r") as file:
-            lines = file.readlines()
-            authorizationrewards = self.authrewards = \
-            [linha for linha in lines if linha.__contains__("Authorization: ")][
-                0].strip().replace("Authorization: ", "")
+        while True:
+            try:
+                with open(f"C:/Farm/rewards/{os.getlogin()}.txt", "r") as file:
+                    lines = file.readlines()
+                    authorizationrewards = self.authrewards = \
+                    [linha for linha in lines if linha.__contains__("Authorization: ")][
+                        0].strip().replace("Authorization: ", "")
+                    if not authorizationrewards:
+                        continue
 
-        with open(f"C:/Farm/xbox/{os.getlogin()}xbox.txt", "r") as file:
-            lines = file.readlines()
-            authorization = [linha for linha in lines if linha.lower().__contains__("authorization: ")][0][15:].strip()
+                with open(f"C:/Farm/xbox/{os.getlogin()}xbox.txt", "r") as file:
+                    lines = file.readlines()
+                    authorization = [linha for linha in lines if linha.lower().__contains__("authorization: ")][0][15:].strip()
 
-            xuide = [linha.strip() for linha in lines if linha.__contains__("users")][0].replace("HTTP/1.1", "")
-            xuide = str(''.join(i for i in xuide if i.isdigit()))
+                    xuide = [linha.strip() for linha in lines if linha.__contains__("users")][0].replace("HTTP/1.1", "")
+                    xuide = str(''.join(i for i in xuide if i.isdigit()))
+                    if not authorizationrewards:
+                        continue
+                break
+            except:
+                pass
 
         resultado: bool = xbox.conquista(xuide, authorization, authorizationrewards)
         return resultado
@@ -552,6 +564,8 @@ class Login:
 
     def resgatar(self, drivermail, inb, tmp, senha ,addnum=True):
         try:
+            drivermail = drivermail[0]
+
             print("começando a resgatar")
             drivermail.maximize_window()
             while True:
@@ -838,8 +852,9 @@ def Run():
         with ThreadPoolExecutor() as executor:
             print("Fazendo tasks do aplicativo/logando no site")
             xboxthread = executor.submit(autofarm.farmxbox)
-            logarsite = executor.submit(login.logarsite, autofarm.email, autofarm.senha)
-            results = [xboxthread.result(), logarsite.result()]
+            rewardsthread = executor.submit(autofarm.processrewards)
+
+            results = [xboxthread.result(), rewardsthread.result()]
 
             if results[0] is False:
                 requests.delete(f"{dtb}Usuarios/Farmando/{os.getlogin()}/.json", verify=False)
@@ -847,9 +862,6 @@ def Run():
                 continue
             else:
                 print("Tasks do app Feitas\n\n")
-
-            rewardsthread = executor.submit(autofarm.processrewards)
-            _ = [rewardsthread.result()]
 
         with open(f"C:/Farm/rewards/{os.getlogin()}.txt", "r") as file:
             lines = file.readlines()
@@ -862,9 +874,6 @@ def Run():
             for country in countries:
                 farm.getpoints(authorization, ms, cookie, country)
 
-        while login.cookiesbing is None or not len(login.cookiesbing):
-            login.logarsite(autofarm.email, autofarm.senha)
-
         print("Fazendo Pesquisas")
 
         pontos_por_pais = {
@@ -874,6 +883,8 @@ def Run():
         }
         pontos_padrao = 250
         pontos = 30
+
+        login.cookiesbing = drivermail[1]
 
         for country in countries:
             pontos += pontos_por_pais.get(country, pontos_padrao)
