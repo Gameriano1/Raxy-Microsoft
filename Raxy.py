@@ -34,7 +34,7 @@ from TempMail import TempMail
 
 import logging
 
-version = 1.0
+version = 1.1
 
 logging.getLogger('selenium').setLevel(logging.CRITICAL)
 
