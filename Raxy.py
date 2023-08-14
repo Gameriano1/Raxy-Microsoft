@@ -584,7 +584,7 @@ class Login:
 
                     url = "https://rewards.bing.com/redeem/checkout/verify?form=dash_2"
                     payload = {
-                        "productId": "000412000025",
+                        "productId": "000400000259",
                         "provider": "csv",
                         "challenge.RequestId": str(reqid),
                         "challenge.TrackingId": "",
@@ -592,8 +592,6 @@ class Login:
                         "challenge.State": "CreateChallenge",
                         "expectedGreenId": str(greenid),
                         "challenge.SendingType": "SMS",
-                        "challenge.Phone.CountryCode": "39",
-                        "challenge.Phone.Number": "3491234567",
                         "__RequestVerificationToken": str(vertoken)
                     }
 
@@ -848,9 +846,8 @@ def Run():
         with ThreadPoolExecutor() as executor:
             print("Fazendo tasks do aplicativo/logando no site")
             xboxthread = executor.submit(autofarm.farmxbox)
-            rewardsthread = executor.submit(autofarm.processrewards)
 
-            results = [xboxthread.result(), rewardsthread.result()]
+            results = [xboxthread.result()]
 
             if results[0] is False:
                 requests.delete(f"{dtb}Usuarios/Farmando/{os.getlogin()}/.json", verify=False)
@@ -858,7 +855,10 @@ def Run():
                 continue
             else:
                 print("Tasks do app Feitas\n\n")
+            rewardsthread = executor.submit(autofarm.processrewards)
+            rewardsthread.result()
 
+        drivermail[0].maximize_window()
         drivermail[0].get("https://rewards.bing.com/redeem/checkout?productId=000409000021")
         while True:
             try:
@@ -866,6 +866,7 @@ def Run():
                 break
             except:
                 pass
+        drivermail[0].minimize_window()
 
         with open(f"C:/Farm/rewards/{os.getlogin()}.txt", "r") as file:
             lines = file.readlines()
