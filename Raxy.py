@@ -814,8 +814,6 @@ def Run():
         # autofarm.gerarcmd()
         print("------------------ Começando ------------------")
 
-        login.get_location("BR")
-
         drivermail = login.desbugar()
 
         autofarm.getacc()
@@ -904,7 +902,6 @@ def Run():
         tmp = TempMail()
         inb = TempMail.generateInbox(tmp)
 
-        login.get_location("US")
         input("Logue a conta no chrome e digite enter...\n>>> ")
 
         while not login.resgatar(drivermail, inb=inb, tmp=tmp, senha=autofarm.senha):
