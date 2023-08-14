@@ -616,7 +616,7 @@ class Login:
                     pass
 
             try:
-                drivermail.get('https://account.live.com/names/Manage')
+                drivermail.get('https://account.live.com/names/manage')
                 while not drivermail.current_url.lower().__contains__("proof"):
                     try:
                         drivermail.find_element('xpath', '//*[@id="i0118"]').send_keys(senha)
@@ -725,7 +725,7 @@ class Login:
                 self.bingantibug('//*[@id="DisplayPhoneCountryISO"]', drivermail)
                 drivermail.find_element('xpath', '//*[@id="DisplayPhoneCountryISO"]').click()
 
-                self.bingantibug('//*[@id="DisplayPhoneCountryISO"]/option[30]', drivermail)
+                self.bingantibug('//*[@id="DisplayPhoneCountryISO"]/option[4]', drivermail)
                 drivermail.find_element('xpath', '//*[@id="DisplayPhoneCountryISO"]/option[4]').click()
 
                 drivermail.find_element('xpath', '//*[@id="DisplayPhoneNumber"]').send_keys(str(dado[2:]))
@@ -908,8 +908,6 @@ def Run():
 
         tmp = TempMail()
         inb = TempMail.generateInbox(tmp)
-
-        input("Logue a conta no chrome e digite enter...\n>>> ")
 
         while not login.resgatar(drivermail, inb=inb, tmp=tmp, senha=autofarm.senha):
             continue
