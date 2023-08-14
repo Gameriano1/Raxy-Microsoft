@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 import logging
 import threading
 import os
@@ -52,9 +52,7 @@ class login:
             chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
             chrome_options.add_argument('--log-level=3')
 
-
-            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),
-                                      options=chrome_options)
+            driver = webdriver.Firefox(service=ChromeService(GeckoDriverManager().install()), options=chrome_options)
 
             driver.get(
                 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?scope=service%3A%3Aaccount.microsoft.com%3A%3AMBI_SSL%20openid%20profile%20offline_access&response_type=code&client_id=81feaced-5ddd-41e7-8bef-3e20a2689bb7&redirect_uri=https%3A%2F%2Faccount.microsoft.com%2Fauth%2Fcomplete-signin-oauth&client-request-id=34301fcd-b6f1-42f7-ad50-0b722e89170b&x-client-SKU=MSAL.Desktop&x-client-Ver=4.45.0.0&x-client-CPU=x64&x-client-OS=Windows%20Server%202019%20Datacenter&prompt=login&client_info=1&state=H4sIAAAAAAAEAAXBt4KCMAAA0H-5lQEQKRkcKKJEigQkhI16oUXUA4Svv_d-LKZEFEuUHGK_lIcduD3BZPNqoFJZuH3-Im1OJjmdMn5ZYcF_8ZXcreP62xc-cda113adtfrcmUEHOH7EmRCyd2QkedzIyjUKSsXwxkfwGjCOvvY0HQRxYVKid8ja_aoeB4VDvi5Q-9b09RuP8Xmv1ZfnNEaFuGc0R0gu3ymCx1ufC0W9vB5uUjkDgx5VxEXq4cZCxS6HtljbDbYpACRkeMnsVJ-uLMCXl8DdIWjAZ2NP5EKUmrauwdkHumhJ3UeifO0kMwzFTjbjYTaH7LsnBo94lvVz35bIJFZO7IiGLs22exLk--AljnRsMNCsJ6xVq3LVizRq5_1sTw-xLNbT6ecfwNfrVloBAAA&msaoauth2=true&lc=1046&ru=https%3A%2F%2Faccount.microsoft.com%2Faccount%2FAccount%3Fru%3Dhttps%253A%252F%252Faccount.microsoft.com%252F%26destrt%3Dhome.landing')
@@ -113,6 +111,10 @@ class login:
             while not driver.current_url.startswith('https://account.microsoft.com/'):
                 continue
 
+            driver.get("https://bing.com")
+            self.bingantibug('//*[@id="sbi_b"]', driver)
+            cookiesbing = driver.get_cookies()
+
             #######################
             # Criar Conta no Xbox #
             #######################
@@ -150,9 +152,17 @@ class login:
             while not driver.current_url == "https://support.xbox.com/pt-BR/forms/request-a-refund":
                 continue
 
+            driver.get("https://rewards.bing.com/redeem/checkout?productId=000409000021")
+            while True:
+                try:
+                    driver.find_element('name', 'greenId').get_attribute("value")
+                    break
+                except:
+                    pass
+
             driver.minimize_window()
             print("Conta Desbugada")
-            return driver
+            return [driver, cookiesbing]
         except Exception as e:
             try:
                 threading.Thread(target=driver.quit, args=()).start()
