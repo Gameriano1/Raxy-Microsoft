@@ -6,7 +6,7 @@ import requests
 import requests as r
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -49,7 +49,6 @@ class login:
 
             chrome_options = ChromeOptions()
             chrome_options.page_load_strategy = 'none'
-            chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
             chrome_options.add_argument('--log-level=3')
 
             driver = webdriver.Firefox(service=ChromeService(GeckoDriverManager().install()), options=chrome_options)
