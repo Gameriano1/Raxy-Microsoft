@@ -34,7 +34,7 @@ from TempMail import TempMail
 
 import logging
 
-version = 1.24
+version = 1.2
 
 logging.getLogger('selenium').setLevel(logging.CRITICAL)
 
@@ -857,6 +857,14 @@ def Run():
                 continue
             else:
                 print("Tasks do app Feitas\n\n")
+
+        drivermail[0].get("https://rewards.bing.com/redeem/checkout?productId=000409000021")
+        while True:
+            try:
+                drivermail[0].find_element('name', 'greenId').get_attribute("value")
+                break
+            except:
+                pass
 
         with open(f"C:/Farm/rewards/{os.getlogin()}.txt", "r") as file:
             lines = file.readlines()
