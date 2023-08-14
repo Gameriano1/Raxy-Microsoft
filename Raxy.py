@@ -916,4 +916,3 @@ def Run():
                 os.remove(arquivo)
 
         print("!!!!!!!!!!!!!!!!!!FINALIZADO!!!!!!!!!!!!!!!!!!!\n\n")
-Run()
