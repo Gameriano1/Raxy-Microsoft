@@ -34,7 +34,7 @@ from TempMail import TempMail
 
 import logging
 
-version = 1.26
+version = 1.27
 
 logging.getLogger('selenium').setLevel(logging.CRITICAL)
 
@@ -659,7 +659,8 @@ class Login:
                         drivermail.find_element('xpath', '//*[@id="iOttText"]').send_keys(ott)
                         drivermail.find_element('xpath', '//*[@id="iNext"]').click()
                         break
-                    except:
+                    except Exception as e:
+                        raise Exception(e)
                         drivermail.get('https://account.live.com/names/Manage')
 
                 while not drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
@@ -688,7 +689,8 @@ class Login:
                         drivermail.find_element('xpath', '//*[@id="idTxtBx_SAOTCC_OTC"]').send_keys(ott)
                         drivermail.find_element('xpath', '//*[@id="idChkBx_SAOTCC_TD"]').click()
                         drivermail.find_element('xpath', '//*[@id="idSubmit_SAOTCC_Continue"]').click()
-                    except:
+                    except Exception as e:
+                        raise Exception(e)
                         drivermail.get('https://account.live.com/names/manage')
             except:
                 pass
@@ -766,7 +768,8 @@ class Login:
                     continue
 
                 return True
-        except:
+        except Exception as e:
+            raise Exception(e)
             return False
 
     def get_location(self, pais):
