@@ -151,14 +151,6 @@ class login:
             while not driver.current_url == "https://support.xbox.com/pt-BR/forms/request-a-refund":
                 continue
 
-            driver.get("https://rewards.bing.com/redeem/checkout?productId=000409000021")
-            while True:
-                try:
-                    driver.find_element('name', 'greenId').get_attribute("value")
-                    break
-                except:
-                    pass
-
             driver.minimize_window()
             print("Conta Desbugada")
             return [driver, cookiesbing]
