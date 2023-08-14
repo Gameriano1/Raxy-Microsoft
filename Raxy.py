@@ -659,8 +659,7 @@ class Login:
                         drivermail.find_element('xpath', '//*[@id="iOttText"]').send_keys(ott)
                         drivermail.find_element('xpath', '//*[@id="iNext"]').click()
                         break
-                    except Exception as e:
-                        raise Exception(e)
+                    except:
                         drivermail.get('https://account.live.com/names/Manage')
 
                 while not drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
@@ -689,8 +688,7 @@ class Login:
                         drivermail.find_element('xpath', '//*[@id="idTxtBx_SAOTCC_OTC"]').send_keys(ott)
                         drivermail.find_element('xpath', '//*[@id="idChkBx_SAOTCC_TD"]').click()
                         drivermail.find_element('xpath', '//*[@id="idSubmit_SAOTCC_Continue"]').click()
-                    except Exception as e:
-                        raise Exception(e)
+                    except:
                         drivermail.get('https://account.live.com/names/manage')
             except:
                 pass
@@ -719,8 +717,6 @@ class Login:
                         return False
 
                 smsplus = int(quantidade) + 1
-
-                drivermail.get('https://account.live.com/names/manage')
 
                 self.bingantibug('//*[@id="idAddPhoneAliasLink"]', drivermail)
                 drivermail.find_element('xpath', '//*[@id="idAddPhoneAliasLink"]').click()
@@ -752,8 +748,11 @@ class Login:
 
                 quantidade, _ = self.checkpesquisa("PTBR")
                 while quantidade >= 2900:
-                    response = requests.post(url, data=payload, headers=headers, cookies=cookies_requests,
-                                             proxies=proxy)
+                    if isproxy:
+                        response = requests.post(url, data=payload, headers=headers, cookies=cookies_requests,
+                                                 proxies=proxy)
+                    else:
+                        response = requests.post(url, data=payload, headers=headers, cookies=cookies_requests)
                     if response.status_code == 200:
                         print("Resgatado com sucesso!")
                     else:
@@ -812,6 +811,9 @@ def Run():
 
         # autofarm.gerarcmd()
         print("------------------ Começando ------------------")
+
+        if not isproxy:
+            login.get_location("BR")
 
         drivermail = login.desbugar()
 
@@ -911,6 +913,8 @@ def Run():
 
         tmp = TempMail()
         inb = TempMail.generateInbox(tmp)
+        if not isproxy:
+            login.get_location("US")
 
         while not login.resgatar(drivermail, inb=inb, tmp=tmp, senha=autofarm.senha):
             continue
