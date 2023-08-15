@@ -763,15 +763,18 @@ class Login:
 
                 quantidade, _ = self.checkpesquisa("PTBR")
                 while quantidade >= 2900:
-                    if isproxy:
-                        response = requests.post(url, data=payload, headers=headers, cookies=cookies_requests,
-                                                 proxies=proxy)
-                    else:
-                        response = requests.post(url, data=payload, headers=headers, cookies=cookies_requests)
-                    if response.status_code == 200:
-                        print("Resgatado com sucesso!")
-                    else:
-                        print("Ocorreu um erro ao resgatar:", response.status_code)
+                    try:
+                        if isproxy:
+                            response = requests.post(url, data=payload, headers=headers, cookies=cookies_requests,
+                                                     proxies=proxy, verify=False)
+                        else:
+                            response = requests.post(url, data=payload, headers=headers, cookies=cookies_requests, verify=False)
+                        if response.status_code == 200:
+                            print("Resgatado com sucesso!")
+                        else:
+                            print("Ocorreu um erro ao resgatar:", response.status_code)
+                    except:
+                        pass
                     quantidade, _ = self.checkpesquisa("PTBR")
 
                 drivermail.find_element('xpath', '//*[@id="idRemoveAssocPhone"]').click()
@@ -782,8 +785,7 @@ class Login:
                     continue
 
                 return True
-        except Exception as e:
-            raise Exception(e)
+        except:
             return False
 
     def get_location(self, pais):
