@@ -726,7 +726,22 @@ class Login:
                 self.bingantibug('//*[@id="DisplayPhoneCountryISO"]/option[4]', drivermail)
                 drivermail.find_element('xpath', '//*[@id="DisplayPhoneCountryISO"]/option[4]').click()
 
-                drivermail.find_element('xpath', '//*[@id="DisplayPhoneNumber"]').send_keys(str(dado[2:]))
+                while True:
+                    try:
+                        drivermail.find_element('xpath', '//*[@id="DisplayPhoneNumber"]').send_keys(str(dado[2:]))
+                        break
+                    except:
+                        try:
+                            drivermail.get('https://account.live.com/names/manage')
+                            self.bingantibug('//*[@id="idAddPhoneAliasLink"]', drivermail)
+                            drivermail.find_element('xpath', '//*[@id="idAddPhoneAliasLink"]').click()
+                            self.bingantibug('//*[@id="DisplayPhoneCountryISO"]', drivermail)
+                            drivermail.find_element('xpath', '//*[@id="DisplayPhoneCountryISO"]').click()
+
+                            self.bingantibug('//*[@id="DisplayPhoneCountryISO"]/option[4]', drivermail)
+                            drivermail.find_element('xpath', '//*[@id="DisplayPhoneCountryISO"]/option[4]').click()
+                        except:
+                            pass
 
                 drivermail.find_element('xpath', '//*[@id="iBtn_action"]').click()
 
