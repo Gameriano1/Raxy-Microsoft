@@ -607,8 +607,8 @@ class Login:
                     proxydetails = [proxy['proxy_address'], proxy['proxy_port'], proxy['proxy_username'],
                                     proxy['proxy_password']]
                     proxy = {
-                        "http": f"http://{proxydetails[2]}-US-rotate:{proxydetails[3]}@{proxydetails[0]}:{proxydetails[1]}/",
-                        "https": f"http://{proxydetails[2]}-US-rotate:{proxydetails[3]}@{proxydetails[0]}:{proxydetails[1]}/"
+                        "http": f"http://{proxydetails[2]}-US-rotate:{proxydetails[3]}@{proxydetails[0]}:{proxydetails[1]}",
+                        "https": f"http://{proxydetails[2]}-US-rotate:{proxydetails[3]}@{proxydetails[0]}:{proxydetails[1]}"
                     }
 
                     break
@@ -951,3 +951,5 @@ def Run():
                 os.remove(arquivo)
 
         print("!!!!!!!!!!!!!!!!!!FINALIZADO!!!!!!!!!!!!!!!!!!!\n\n")
+if __name__ == '__main__':
+    Run()
