@@ -618,6 +618,8 @@ class Login:
             try:
                 drivermail.get('https://account.live.com/names/manage')
                 while not drivermail.current_url.lower().__contains__("proof"):
+                    if drivermail.current_url.lower().startswith('https://account.live.com/names/manage'):
+                        break
                     try:
                         drivermail.find_element('xpath', '//*[@id="i0118"]').send_keys(senha)
                         drivermail.find_element('xpath', '//*[@id="idSIButton9"]').click()
@@ -823,6 +825,7 @@ def Run():
     if int(quantidade) < 1: raise Exception("Digite uma quantidade de contas a ser feitas valida!")
 
     for _ in range(int(quantidade)):
+
         autofarm = AutoFarm()
         login = Login()
 
