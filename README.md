@@ -28,7 +28,7 @@ Este projeto foi desenvolvido para automatizar o processo de ganhar pontos no Mi
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/automacao-microsoft-rewards.git](https://github.com/Gameriano1/Raxy-Microsoft.git
+   git clone https://github.com/Gameriano1/Raxy-Microsoft.git
    ```
    
 2. Instale as dependências:
