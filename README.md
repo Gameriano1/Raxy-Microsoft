@@ -1,6 +1,3 @@
-Aqui está o `README.md` com emojis para dar um toque mais visual e divertido:
-
-```md
 # 🚀 Automação do Microsoft Rewards para Robux 💰
 
 ## 👀 Visão Geral
