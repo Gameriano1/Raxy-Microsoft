@@ -1,5 +1,9 @@
 # 🚀 Automação do Microsoft Rewards para Robux 💰
 
+
+
+
+
 ## 👀 Visão Geral
 
 Este projeto foi desenvolvido para automatizar o processo de ganhar pontos no Microsoft Rewards utilizando vários aplicativos do Windows, como Xbox 🎮, Microsoft Rewards e Microsoft Store 🛒. O script realiza milhares de pesquisas por segundo em diferentes países 🌍 para maximizar o acúmulo de pontos, que são então convertidos em Robux 🪙, a moeda virtual usada no Roblox.
